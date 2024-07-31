@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 
@@ -16,9 +18,14 @@ import java.util.List;
 @Table(name="users")
 @Getter
 @Setter
-public class User extends AbstractEntity implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Serializable {
 
-    @NotBlank
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
     private String username;
 
     private String surname;

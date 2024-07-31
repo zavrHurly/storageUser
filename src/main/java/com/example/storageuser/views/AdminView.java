@@ -13,18 +13,19 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("/user")
-public class UserView extends VerticalLayout {
+@Route("/admin")
+public class AdminView extends VerticalLayout {
     private final UserService userService;
 
     private final UserEditor userEditor;
 
     private Grid<User> userGrid= new Grid<>(User.class);
     private final TextField filter = new TextField();
-    private final HorizontalLayout toolbar = new HorizontalLayout(filter);
+    private final Button addNewButton = new Button("New user", VaadinIcon.PLUS.create());
+    private final HorizontalLayout toolbar = new HorizontalLayout(filter, addNewButton);
 
     @Autowired
-    public UserView(UserService userService, UserEditor userEditor) {
+    public AdminView(UserService userService, UserEditor userEditor) {
         this.userService = userService;
         this.userEditor = userEditor;
 
@@ -32,11 +33,16 @@ public class UserView extends VerticalLayout {
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(field -> fillList(field.getValue()));
 
-        add(toolbar, userGrid);
+        add(toolbar, userGrid, userEditor);
 
         userGrid
                 .asSingleSelect()
                 .addValueChangeListener(e -> userEditor.editUser(e.getValue()));
+
+        addNewButton.addClickListener(e -> {
+            userEditor.setVisible(true);
+            userEditor.editUser(new User());
+        });
 
         userEditor.setChangeHandler(() -> {
             userEditor.setVisible(true);

@@ -21,9 +21,9 @@ public class UserEditor extends VerticalLayout implements KeyNotifier {
 
     private User user = new User();
 
-    private TextField surname = new TextField("", "Surname");
-    private TextField name = new TextField("", "Name");
-    private TextField fatherName = new TextField("", "FatherName");
+    private TextField surname = new TextField("", "surname");
+    private TextField username = new TextField("", "username");
+    private TextField fatherName = new TextField("", "fatherName");
     private TextField email = new TextField("", "email");
     private TextField callNumber = new TextField("", "callNumber");
     private TextField password = new TextField("", "password");
@@ -46,7 +46,7 @@ public class UserEditor extends VerticalLayout implements KeyNotifier {
     public UserEditor(UserService userService) {
         this.userService = userService;
 
-        add(name, surname, fatherName, email, callNumber, password, buttons);
+        add(username, surname, fatherName, email, callNumber, password, buttons);
 
         binder.bindInstanceFields(this);
 
@@ -69,7 +69,7 @@ public class UserEditor extends VerticalLayout implements KeyNotifier {
             }
             changeHandler.onChange();
             setVisible(false);
-            name.clear();
+            username.clear();
             surname.clear();
             fatherName.clear();
             email.clear();
@@ -99,6 +99,6 @@ public class UserEditor extends VerticalLayout implements KeyNotifier {
 
         setVisible(true);
 
-        name.focus();
+        username.focus();
     }
 }
