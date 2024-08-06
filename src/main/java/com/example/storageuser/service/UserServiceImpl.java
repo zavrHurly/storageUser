@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -68,8 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        user.setEnabled(true);
-        user.setRoles(Collections.singletonList(Role.USER));
+        user.setRoles(Collections.singleton(Role.USER));
         User registeredUser = userRepository.save(user);
 
         log.info("IN register - user: {} successfully registered", registeredUser);
