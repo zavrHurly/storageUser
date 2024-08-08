@@ -1,5 +1,6 @@
 package com.example.storageuser.security;
 
+import com.example.storageuser.domain.Role;
 import com.vaadin.flow.server.HandlerHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,5 +1,6 @@
 package com.example.storageuser.domain;
 
+import com.example.storageuser.web.UserDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -50,5 +51,12 @@ public class User implements Serializable {
     @ElementCollection(fetch = FetchType.EAGER)
     @BatchSize(size = 200)
     private Set<Role> roles;
+
+    public User (UserDto userDto) {
+        this.username = userDto.getUsername();
+        this.surname = userDto.getSurname();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+    }
 
 }

@@ -1,6 +1,8 @@
 package com.example.storageuser.security;
 
 import com.example.storageuser.views.LoginView;
+import com.example.storageuser.views.RegistrationView;
+import com.example.storageuser.views.UserView;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.server.ServiceInitEvent;
@@ -19,9 +21,10 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
     }
 
     private void authenticateNavigation(BeforeEnterEvent event) {
-        if (!LoginView.class.equals(event.getNavigationTarget()))
-            if (!SecurityUtils.isUserLoggedIn()) {
-                event.rerouteTo(LoginView.class);
-            }
+        if (!LoginView.class.equals(event.getNavigationTarget())
+                && !RegistrationView.class.equals(event.getNavigationTarget())
+                && !SecurityUtils.isUserLoggedIn()) {
+            event.rerouteTo(LoginView.class);
+        }
     }
 }
