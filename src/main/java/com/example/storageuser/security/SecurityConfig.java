@@ -1,51 +1,47 @@
 package com.example.storageuser.security;
 
-import com.example.storageuser.repository.UserRepository;
 import com.example.storageuser.views.LoginView;
-import com.example.storageuser.web.AuthUser;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jose.jws.JwsAlgorithms;
+
+import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 @EnableWebSecurity
 @Configuration
-@AllArgsConstructor
 public class SecurityConfig extends VaadinWebSecurity {
 
-    private final UserRepository userRepository;
+    @Value("${auth.secret}")
+    private String authSecret;
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
-                .requestMatchers("/registration", "/login").anonymous()
+        http.sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/login").anonymous()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/registration", "token").permitAll()
                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
 
         super.configure(http);
 
         setLoginView(http, LoginView.class);
-    }
-
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
+        setStatelessAuthentication(http,
+                new SecretKeySpec(Base64.getDecoder().decode(authSecret),
+                        JwsAlgorithms.HS256),
+                "com.example.application"
+        );
     }
 
     @Bean
