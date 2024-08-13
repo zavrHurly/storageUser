@@ -18,8 +18,6 @@ public class UserDto {
     @Email
     private String email;
 
-    private boolean allowsMarketing;
-
     @Size(min = 8, max = 64, message = "Password must be 8-64 char long")
     private String password;
 

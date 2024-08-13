@@ -16,7 +16,7 @@ public class RegistrationFormBinder {
 
     private boolean enablePasswordValidation;
 
-    private UserService service;
+    private final UserService service;
 
     public RegistrationFormBinder(RegistrationForm registrationForm, UserService service) {
         this.registrationForm = registrationForm;

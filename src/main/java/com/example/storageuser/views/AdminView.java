@@ -14,12 +14,11 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("/admin")
+@Route(value = "/admin", layout = MainLayout.class)
 @RolesAllowed("ADMIN")
 public class AdminView extends VerticalLayout {
-    private final UserService userService;
 
-    private final UserEditor userEditor;
+    private final UserService userService;
 
     private Grid<User> userGrid= new Grid<>(User.class);
     private final TextField filter = new TextField();
@@ -29,7 +28,6 @@ public class AdminView extends VerticalLayout {
     @Autowired
     public AdminView(UserService userService, UserEditor userEditor) {
         this.userService = userService;
-        this.userEditor = userEditor;
 
         filter.setPlaceholder("Type to filter");
         filter.setValueChangeMode(ValueChangeMode.EAGER);

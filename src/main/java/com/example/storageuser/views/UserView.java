@@ -14,12 +14,11 @@ import com.vaadin.flow.router.Route;
 import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Route("/user")
+@Route(value="/user", layout = MainLayout.class)
 @PermitAll
 public class UserView extends VerticalLayout {
-    private final UserService userService;
 
-    private final UserEditor userEditor;
+    private final UserService userService;
 
     private Grid<User> userGrid= new Grid<>(User.class);
     private final TextField filter = new TextField();
@@ -28,7 +27,6 @@ public class UserView extends VerticalLayout {
     @Autowired
     public UserView(UserService userService, UserEditor userEditor) {
         this.userService = userService;
-        this.userEditor = userEditor;
 
         filter.setPlaceholder("Type to filter");
         filter.setValueChangeMode(ValueChangeMode.EAGER);

@@ -22,7 +22,7 @@ import java.util.Optional;
 @Component
 public class AuthUser {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     private final AuthenticationContext authenticationContext;
 
     @Autowired
@@ -30,10 +30,6 @@ public class AuthUser {
         this.userRepository = userRepository;
         this.authenticationContext = authenticationContext;
     }
-
-
-
-
 
     public Optional<Authentication> getAuthentication() {
         SecurityContext context = SecurityContextHolder.getContext();

@@ -29,9 +29,9 @@ public class SecurityConfig extends VaadinWebSecurity {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/login").anonymous()
+                .requestMatchers("/registration","/login").anonymous()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/registration", "token").permitAll()
+                .requestMatchers( "token").permitAll()
                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
 
         super.configure(http);
