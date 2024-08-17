@@ -1,9 +1,10 @@
 package com.example.storageuser.domain;
 
-import com.example.storageuser.web.UserDto;
+import com.example.storageuser.web.UserDtoToRegister;
+import com.example.storageuser.web.UserDtoToView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,6 @@ import org.hibernate.annotations.BatchSize;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,6 +26,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @JsonIgnore
     private Long id;
 
     private String username;
@@ -52,11 +53,20 @@ public class User implements Serializable {
     @BatchSize(size = 200)
     private Set<Role> roles;
 
-    public User (UserDto userDto) {
+    public User (UserDtoToRegister userDto) {
         this.username = userDto.getUsername();
         this.surname = userDto.getSurname();
         this.email = userDto.getEmail();
         this.password = userDto.getPassword();
+    }
+
+    public User (UserDtoToView userDto) {
+        this.username = userDto.getUsername();
+        this.surname = userDto.getSurname();
+        this.email = userDto.getEmail();
+        this.fatherName = userDto.getFatherName();
+        this.dateOfBirth = userDto.getDateOfBirth();
+        this.callNumber = userDto.getCallNumber();
     }
 
 }

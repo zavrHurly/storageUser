@@ -2,7 +2,7 @@ package com.example.storageuser.component;
 
 import com.example.storageuser.domain.User;
 import com.example.storageuser.service.UserService;
-import com.example.storageuser.web.UserDto;
+import com.example.storageuser.web.UserDtoToRegister;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -24,7 +24,7 @@ public class RegistrationFormBinder {
     }
 
     public void addBindingAndValidation() {
-        BeanValidationBinder<UserDto> binder = new BeanValidationBinder<>(UserDto.class);
+        BeanValidationBinder<UserDtoToRegister> binder = new BeanValidationBinder<>(UserDtoToRegister.class);
         binder.bindInstanceFields(registrationForm);
 
         binder.forField(registrationForm.getPasswordField())
@@ -38,7 +38,7 @@ public class RegistrationFormBinder {
         binder.setStatusLabel(registrationForm.getErrorMessageField());
         registrationForm.getSubmitButton().addClickListener(event -> {
             try {
-                UserDto userBean = new UserDto();
+                UserDtoToRegister userBean = new UserDtoToRegister();
                 binder.writeBean(userBean);
                 service.create(new User(userBean));
                 showSuccess(userBean);
@@ -66,7 +66,7 @@ public class RegistrationFormBinder {
         return ValidationResult.error("Passwords do not match");
     }
 
-    private void showSuccess(UserDto userBean) {
+    private void showSuccess(UserDtoToRegister userBean) {
         Notification notification =
                 Notification.show("Data saved, welcome " + userBean.getUsername());
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);

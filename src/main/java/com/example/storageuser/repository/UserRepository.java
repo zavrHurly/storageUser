@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository <User, Long> {
 
-    @Query("from User u where concat(u.username, ' ', u.surname, ' ', u.fatherName) like concat('%', :name, '%')")
+    @Query("SELECT u FROM User u WHERE u.username LIKE CONCAT('%', :name, '%')")
     List<User> findByName(@Param("name") String name);
 
     @Query("SELECT u FROM User u WHERE u.username = :name")

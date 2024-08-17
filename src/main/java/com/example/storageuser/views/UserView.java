@@ -3,6 +3,7 @@ package com.example.storageuser.views;
 import com.example.storageuser.component.UserEditor;
 import com.example.storageuser.domain.User;
 import com.example.storageuser.service.UserService;
+import com.example.storageuser.web.UserDtoToView;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -20,7 +21,7 @@ public class UserView extends VerticalLayout {
 
     private final UserService userService;
 
-    private Grid<User> userGrid= new Grid<>(User.class);
+    private Grid<UserDtoToView> userGrid= new Grid<>(UserDtoToView.class);
     private final TextField filter = new TextField();
     private final HorizontalLayout toolbar = new HorizontalLayout(filter);
 
@@ -36,7 +37,7 @@ public class UserView extends VerticalLayout {
 
         userGrid
                 .asSingleSelect()
-                .addValueChangeListener(e -> userEditor.editUser(e.getValue()));
+                .addValueChangeListener(e -> userEditor.editDtoUser(e.getValue()));
 
         userEditor.setChangeHandler(() -> {
             userEditor.setVisible(true);
@@ -47,9 +48,9 @@ public class UserView extends VerticalLayout {
 
     private void fillList(String name) {
         if (name.isEmpty()) {
-            userGrid.setItems(this.userService.getAll());
+            userGrid.setItems(this.userService.getAllDto());
         } else {
-            userGrid.setItems(this.userService.findByUsername(name));
+            userGrid.setItems(this.userService.findDtoByUsername(name));
         }
     }
 }

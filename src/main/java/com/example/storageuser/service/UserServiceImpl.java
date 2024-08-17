@@ -3,9 +3,11 @@ package com.example.storageuser.service;
 import com.example.storageuser.domain.Role;
 import com.example.storageuser.domain.User;
 import com.example.storageuser.repository.UserRepository;
+import com.example.storageuser.web.UserDtoToView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,8 +27,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDtoToView> getAllDto() {
+        List<User> userFromDb = userRepository.findAll();
+        List<UserDtoToView> result = new ArrayList<>();
+        for (User user : userFromDb) {
+            result.add(new UserDtoToView(user));
+        }
+        return result;
+    }
+
+    @Override
     public List<User> findByUsername(String username) {
         return userRepository.findByName(username);
+    }
+
+    @Override
+    public List<UserDtoToView> findDtoByUsername(String username) {
+        List<User> userFromDb = userRepository.findByName(username);
+        List<UserDtoToView> result = new ArrayList<>();
+        for (User user : userFromDb) {
+            result.add(new UserDtoToView(user));
+        }
+        return result;
     }
 
     @Override

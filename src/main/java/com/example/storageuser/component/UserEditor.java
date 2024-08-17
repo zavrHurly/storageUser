@@ -2,6 +2,7 @@ package com.example.storageuser.component;
 
 import com.example.storageuser.domain.User;
 import com.example.storageuser.service.UserService;
+import com.example.storageuser.web.UserDtoToView;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -93,6 +94,25 @@ public class UserEditor extends VerticalLayout implements KeyNotifier {
             this.user = userService.findById(user.getId());
         } else {
             this.user = user;
+        }
+
+        binder.setBean(this.user);
+
+        setVisible(true);
+
+        username.focus();
+    }
+
+    public void editDtoUser(UserDtoToView user) {
+        if (user == null) {
+            setVisible(false);
+            return;
+        }
+
+        if (user.getId() != null) {
+            this.user = userService.findById(user.getId());
+        } else {
+            this.user = new User(user);
         }
 
         binder.setBean(this.user);
