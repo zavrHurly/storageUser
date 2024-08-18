@@ -1,18 +1,18 @@
 version: '3.9'
 services:
 
-  client-backend:
-    image: client:0.0.1
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-      - SERVER_PORT= 8080
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/storage_user
+#  client-backend:
+#    image: client:0.0.1
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      - postgres
+#    environment:
+#      - SERVER_PORT= 8080
+##      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres/storage_user
 
   postgres:
     container_name: postgres-container

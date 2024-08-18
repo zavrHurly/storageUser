@@ -31,7 +31,6 @@ public class SecurityConfig extends VaadinWebSecurity {
                 .authorizeHttpRequests()
                 .requestMatchers("/registration","/login").anonymous()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers( "token").permitAll()
                 .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN");
 
         super.configure(http);
